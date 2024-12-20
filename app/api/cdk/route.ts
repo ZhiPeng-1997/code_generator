@@ -68,8 +68,8 @@ export async function POST(request: Request) {
   } else if (cdk_type == "monthly") {
     document["expire_time"] = getTimestampAfterNDays(31);
     document["cdk_type"] = "normal";
-  } else if (cdk_type == "yearly") {
-    document["expire_time"] = getTimestampAfterNDays(365);
+  } else if (cdk_type == "seasonly") {
+    document["expire_time"] = getTimestampAfterNDays(92);
     document["cdk_type"] = "normal";
   } else if (cdk_type == "vip") {
     document["cdk_type"] = "vip";

@@ -128,8 +128,8 @@ export default function Home() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="weekly">七日体验卡（三次入库）</SelectItem>
-                      <SelectItem value="monthly">月卡（15次入库）</SelectItem>
-                      <SelectItem value="yearly">年卡（无限制）</SelectItem>
+                      <SelectItem value="monthly">月卡（无限制）</SelectItem>
+                      <SelectItem value="seasonly">季度卡（无限制）</SelectItem>
                       <SelectItem value="vip">VIP（永久）</SelectItem>
                     </SelectContent>
                   </Select>
