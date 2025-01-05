@@ -59,6 +59,7 @@ export async function POST(request: Request) {
     "machine_code": "",
     "games": [],
     "bind_times": 0,
+    "create_time": Date.now(),
   };
 
   if (cdk_type == "weekly") {
