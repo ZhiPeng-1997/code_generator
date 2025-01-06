@@ -107,7 +107,7 @@ export default function Delete() {
                 </FormItem>
               )}
             />
-            <Button type="submit">生成</Button>
+            <Button type="submit">删除</Button>
           </form>
         </Form>
       </main>
