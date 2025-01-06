@@ -1,5 +1,5 @@
 import { Db } from 'mongodb';
-import {default as exec_mongo} from '../mongo' 
+import {default as exec_mongo} from '@/app/api/mongo' 
 
 function generateRandomString() {
   // 包含大写字母和数字的字符串
