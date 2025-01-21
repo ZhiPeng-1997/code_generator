@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
+import { Switch } from "@/components/ui/switch"
 
 
 const formSchema = z.object({
   password: z.string().min(1, {
     message: "请输入密码"
   }),
+  get_black: z.boolean().default(false),
   cdk_value: z.string().min(23, {
     message: "请输入正确的cdk"
   }),
@@ -33,6 +35,7 @@ export default function Delete() {
     defaultValues: {
       password: "",
       cdk_value: "",
+      get_black: false,
     },
   })
 
@@ -87,6 +90,24 @@ export default function Delete() {
                   <FormDescription>
                     预置密码
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="get_black"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>拉黑</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange} />
+                  </FormControl>
+                  {/* <FormDescription>
+                    拉黑
+                  </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
