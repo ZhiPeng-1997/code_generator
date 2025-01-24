@@ -35,7 +35,7 @@ function formatDate(timestamp: number) {
     return `${yyyy}-${mm}-${dd}`;
 }
 
-export async function GET(request: Request) {
+export async function GET() {
     const time_range = getTimestampRange();
     const result: { date: string; temp: number; normal: number; vip: number; }[] = []
     await exec_mongo(async (unlocker_db: Db) => {
