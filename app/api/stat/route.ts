@@ -57,7 +57,7 @@ export async function GET(request: Request) {
         });
         const cdk_list = await cdk_cursor.toArray()
         const temp_map: { [key: number]: [number, number, number] } = {};
-        for (let cdk of cdk_list) {
+        for (const cdk of cdk_list) {
             const day_key = getStartOfDay(cdk.create_time);
             const cdk_type = cdk.cdk_type;
             if (!(day_key in temp_map)) {
@@ -74,13 +74,13 @@ export async function GET(request: Request) {
         }
         // 排序
         const temp_list: [number, [number, number, number]][] = []
-        for (let k of Object.keys(temp_map)) {
+        for (const k of Object.keys(temp_map)) {
             const key = parseInt(k);
             const v = temp_map[key];
             temp_list.push([key, v])
         }
         temp_list.sort(i => i[0]);
-        for (let item of temp_list) {
+        for (const item of temp_list) {
             const date_str = formatDate(item[0]);
             result.push({
                 date: date_str,
