@@ -35,6 +35,8 @@ function formatDate(timestamp: number) {
     return `${yyyy}-${mm}-${dd}`;
 }
 
+export const revalidate = 0;
+
 export async function GET() {
     const time_range = getTimestampRange();
     const result: { date: string; temp: number; normal: number; vip: number; }[] = []
