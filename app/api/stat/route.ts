@@ -8,7 +8,7 @@ function getTimestampRange() {
     const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
 
     // 向前推七天
-    const startOfDay = new Date(endOfDay.getTime() - 10 * 24 * 60 * 60 * 1000);
+    const startOfDay = new Date(endOfDay.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     // 返回时间戳数组
     return [startOfDay.getTime(), endOfDay.getTime()];
