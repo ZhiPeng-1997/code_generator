@@ -17,5 +17,5 @@ export async function GET(request: NextApiRequest, { params }: { params: { cdk_v
     return cdk_info;
   });
   // console.log(data);
-  return Response.json(cdk_info);
+  return Response.json(data);
 }

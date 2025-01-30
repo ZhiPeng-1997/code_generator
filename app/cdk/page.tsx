@@ -24,7 +24,6 @@ const formSchema = z.object({
 })
 
 export default function Cdk() {
-  const { toast } = useToast()
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
