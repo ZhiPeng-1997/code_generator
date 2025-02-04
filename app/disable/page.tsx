@@ -14,13 +14,21 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
+const operOptions = [{
+  value: "DENY",
+  desc: "禁用"
+}, {
+  value: "ALLOW",
+  desc: "启用"
+}];
 
 const formSchema = z.object({
   password: z.string().min(1, {
     message: "请输入密码"
   }),
-  bind_times: z.coerce.number().int(),
+  oper: z.enum(["DENY", "ALLOW"]),
   cdk_value: z.string().min(23, {
     message: "请输入正确的cdk"
   }),
@@ -34,7 +42,7 @@ export default function Reset() {
     defaultValues: {
       password: "",
       cdk_value: "",
-      bind_times: 0,
+      oper: "DENY",
     },
   })
 
@@ -43,7 +51,7 @@ export default function Reset() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
-    fetch('/api/cdk/reset', {
+    fetch('/api/cdk/disable', {
       method: 'POST', // 或者 'PUT'
       headers: {
         'Content-Type': 'application/json' // 指定发送的数据类型为JSON
@@ -111,15 +119,30 @@ export default function Reset() {
             />
             <FormField
               control={form.control}
-              name="bind_times"
+              name="oper"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>重置次数</FormLabel>
+                  <FormLabel>操作</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="0" {...field} />
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      {operOptions.map(o => (
+                        <FormItem key={o.value} className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={o.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {o.desc}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
                   </FormControl>
                   <FormDescription>
-                    重置次数
+                    操作
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -4,17 +4,17 @@ import { NextRequest } from 'next/server';
 
 
 
-type ResetCdkRequest = {
+type DisableCdkRequest = {
   cdk_value: string,
   password: string,
-  bind_times: number,
+  oper: string
 }
  
 export async function POST(request: NextRequest) {
-  const json_body: ResetCdkRequest = await request.json();
+  const json_body: DisableCdkRequest = await request.json();
   const cdk_value = json_body["cdk_value"];
   const passowrd = json_body["password"];
-  const bind_times = json_body["bind_times"];
+  const oper = json_body["oper"];
   if (passowrd != process.env.PASSWORD) {
     return Response.json({ data: "fuck you asshole!" })
   }
@@ -28,12 +28,12 @@ export async function POST(request: NextRequest) {
         "_id": cdk._id
       }, {
         "$set": {
-            "bind_times": bind_times,
+            "disable": oper == "DENY",
         }
       });
-      return {data: "重置成功"};
+      return {data: "操作成功"};
     }
-    return {data: "重置失败,CDK不存在"};
+    return {data: "操作失败,CDK不存在"};
   });
   return Response.json(data);
 }

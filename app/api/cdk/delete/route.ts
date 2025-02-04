@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
-
+import { sendMail } from "@/app/api/mailer"
 function getTimestampAfterNDays(n: number) {
   // 获取当前时间戳（以毫秒为单位）
   const now = Date.now();
@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       await cdk_collection?.deleteOne({
         "_id": cdk._id
       });
+      sendMail(process.env.MAIL_NOTIFY_EMIAL, "[DELETE KEY]CDK已删除", cdk.value + "  ||  " + cdk.cdk_type)
       return {data: "删除成功"};
     }
     return {data: "删除失败,CDK不存在"};
