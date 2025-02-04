@@ -49,7 +49,8 @@ export async function POST(request: Request) {
       await cdk_collection?.deleteOne({
         "_id": cdk._id
       });
-      sendMail(process.env.MAIL_NOTIFY_EMIAL as string, "[DELETE KEY]CDK已删除", cdk.value + "  ||  " + cdk.cdk_type)
+      const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, "[DELETE KEY]CDK已删除", cdk.value + "  ||  " + cdk.cdk_type)
+      console.log(result);
       return {data: "删除成功"};
     }
     return {data: "删除失败,CDK不存在"};

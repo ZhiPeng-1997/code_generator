@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export function sendMail(to: string, title: string, content: string): void {
+export async function sendMail(to: string, title: string, content: string): Promise<object> {
     const mailOptions: SendMailOptions = {
         from: `"ME" <${process.env.MAIL_SMTP_USER}>`, // 发件人名称和邮箱
         to: to,                 // 收件人邮箱
@@ -20,11 +20,5 @@ export function sendMail(to: string, title: string, content: string): void {
         text: content, // 纯文本内容
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error("邮件发送失败:", error);
-        } else {
-            console.log("邮件发送成功:", info.messageId);
-        }
-    });
+    return transporter.sendMail(mailOptions);
 }
