@@ -1,9 +1,9 @@
-import nodemailer from "nodemailer";
+import nodemailer, { SendMailOptions } from "nodemailer";
 
 
 const transporter = nodemailer.createTransport({
     host: process.env.MAIL_SMTP_HOST, // QQ 邮箱 SMTP 服务器地址
-    port: process.env.MAIL_SMTP_PORT,          // 使用 SSL/TLS 的端口
+    port: parseInt(process.env.MAIL_SMTP_PORT as string),          // 使用 SSL/TLS 的端口
     secure: true,       // 使用 SSL/TLS 加密
     auth: {
         user: process.env.MAIL_SMTP_USER, // 替换为你的 QQ 邮箱地址
@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 
 export function sendMail(to: string, title: string, content: string): void {
-    const mailOptions = {
+    const mailOptions: SendMailOptions = {
         from: `"ME" <${process.env.MAIL_SMTP_USER}>`, // 发件人名称和邮箱
         to: to,                 // 收件人邮箱
         subject: title,             // 邮件主题
