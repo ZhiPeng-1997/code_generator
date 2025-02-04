@@ -11,21 +11,20 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-module.exports = {
-    sendMail: function (to: string, title: string, content: string): void {
-        const mailOptions = {
-            from: `"ME" <${process.env.MAIL_SMTP_USER}>`, // 发件人名称和邮箱
-            to: to,                 // 收件人邮箱
-            subject: title,             // 邮件主题
-            text: content, // 纯文本内容
-        };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error("邮件发送失败:", error);
-            } else {
-                console.log("邮件发送成功:", info.messageId);
-            }
-        });
-    }
+export function sendMail(to: string, title: string, content: string): void {
+    const mailOptions = {
+        from: `"ME" <${process.env.MAIL_SMTP_USER}>`, // 发件人名称和邮箱
+        to: to,                 // 收件人邮箱
+        subject: title,             // 邮件主题
+        text: content, // 纯文本内容
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error("邮件发送失败:", error);
+        } else {
+            console.log("邮件发送成功:", info.messageId);
+        }
+    });
 }
