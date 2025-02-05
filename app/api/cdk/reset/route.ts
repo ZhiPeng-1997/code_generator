@@ -1,7 +1,7 @@
 import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
 import { NextRequest } from 'next/server';
-
+import { verify_and_get_name } from "@/app/api/config"
 
 
 type ResetCdkRequest = {
@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
   const cdk_value = json_body["cdk_value"];
   const passowrd = json_body["password"];
   const bind_times = json_body["bind_times"];
-  if (passowrd != process.env.PASSWORD) {
+  const creator = verify_and_get_name(passowrd)
+  if (!!!creator) {
     return Response.json({ data: "fuck you asshole!" })
   }
   const data = await exec_mongo(async (unlocker_db: Db) => {
