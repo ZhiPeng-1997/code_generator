@@ -1,6 +1,7 @@
 import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
-
+import { verify_and_get_name } from "@/app/api/config"
+import { insert_log } from '@/app/api/pgsql';
 function generateRandomString() {
   // 包含大写字母和数字的字符串
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -50,7 +51,8 @@ export async function POST(request: Request) {
   const json_body: CreateCdkRequest = await request.json();
   const cdk_type = json_body["cdk_type"];
   const passowrd = json_body["password"];
-  if (passowrd != process.env.PASSWORD) {
+  const creator = verify_and_get_name(passowrd)
+  if (!!!creator) {
     return Response.json({ data: "fuck you asshole!" })
   }
   const cdk_value: string = generateRandomString();
@@ -60,6 +62,7 @@ export async function POST(request: Request) {
     "games": [],
     "bind_times": 0,
     "create_time": Date.now(),
+    "creator": creator,
   };
 
   if (cdk_type == "weekly") {
@@ -79,5 +82,6 @@ export async function POST(request: Request) {
     const cdk_collection = unlocker_db?.collection("Cdk");
     await cdk_collection?.insertOne(document);
   });
+  await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "CREATE"});
   return Response.json({ data: cdk_value });
 }

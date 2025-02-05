@@ -1,6 +1,8 @@
 import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
+import { insert_log } from '@/app/api/pgsql' 
 import { sendMail } from "@/app/api/mailer"
+import { verify_and_get_name } from "@/app/api/config"
 function getTimestampAfterNDays(n: number) {
   // 获取当前时间戳（以毫秒为单位）
   const now = Date.now();
@@ -22,7 +24,8 @@ export async function POST(request: Request) {
   const cdk_value = json_body["cdk_value"];
   const passowrd = json_body["password"];
   const get_black = json_body["get_black"];
-  if (passowrd != process.env.PASSWORD) {
+  const creator = verify_and_get_name(passowrd)
+  if (!!!creator) {
     return Response.json({ data: "fuck you asshole!" })
   }
   const data = await exec_mongo(async (unlocker_db: Db) => {
@@ -55,5 +58,6 @@ export async function POST(request: Request) {
     }
     return {data: "删除失败,CDK不存在"};
   });
+  await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE"});
   return Response.json(data);
 }
