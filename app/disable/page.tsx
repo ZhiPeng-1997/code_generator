@@ -32,6 +32,7 @@ const formSchema = z.object({
   cdk_value: z.string().min(23, {
     message: "请输入正确的cdk"
   }),
+  disable_seconds: z.coerce.number().int().positive()
 })
 
 export default function Reset() {
@@ -43,6 +44,7 @@ export default function Reset() {
       password: "",
       cdk_value: "",
       oper: "DENY",
+      disable_seconds: 3600,
     },
   })
 
@@ -148,7 +150,23 @@ export default function Reset() {
                 </FormItem>
               )}
             />
-            <Button type="submit">重置</Button>
+            {form.getValues().oper == "DENY" && (<FormField
+              control={form.control}
+              name="disable_seconds"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>封禁时间</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="3600" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    秒数
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />)}
+            <Button type="submit">操作</Button>
           </form>
         </Form>
       </main>

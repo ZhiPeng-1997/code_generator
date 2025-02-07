@@ -8,7 +8,8 @@ import { verify_and_get_name } from "@/app/api/config"
 type DisableCdkRequest = {
   cdk_value: string,
   password: string,
-  oper: string
+  oper: string,
+  disable_seconds: number | null,
 }
  
 export async function POST(request: NextRequest) {
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest) {
   const cdk_value = json_body["cdk_value"];
   const passowrd = json_body["password"];
   const oper = json_body["oper"];
+  const disable_seconds = json_body["disable_seconds"];
   const creator = verify_and_get_name(passowrd)
   if (!!!creator) {
     return Response.json({ data: "fuck you asshole!" })
@@ -31,6 +33,7 @@ export async function POST(request: NextRequest) {
       }, {
         "$set": {
             "disable": oper == "DENY",
+            "disable_endtime": oper == "DENY" ? (Date.now() + disable_seconds! * 1000): null,
         }
       });
       return {data: "操作成功"};
