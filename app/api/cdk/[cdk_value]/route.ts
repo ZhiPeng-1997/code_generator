@@ -12,7 +12,10 @@ export async function GET(request: NextRequest, { params }: { params: { cdk_valu
     const cdk_info = await cdk_collection?.findOne({
       "value": cdk_value,
     })
-    return cdk_info;
+    if (!!cdk_info) {
+      return cdk_info;
+    }
+    return {"result": "CDK不存在"};
   });
   // console.log(data);
   return Response.json(data);
