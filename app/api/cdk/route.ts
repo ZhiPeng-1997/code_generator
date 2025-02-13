@@ -2,6 +2,7 @@ import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
 import { verify_and_get_name } from "@/app/api/config"
 import { insert_log } from '@/app/api/pgsql';
+import { NextRequest } from 'next/server';
 function generateRandomString() {
   // 包含大写字母和数字的字符串
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -47,7 +48,7 @@ type CreateCdkRequest = {
   password: string,
 }
  
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const json_body: CreateCdkRequest = await request.json();
   const cdk_type = json_body["cdk_type"];
   const passowrd = json_body["password"];
@@ -63,6 +64,7 @@ export async function POST(request: Request) {
     "bind_times": 0,
     "create_time": Date.now(),
     "creator": creator,
+    "bind_ip_history": [],
   };
 
   if (cdk_type == "weekly") {
