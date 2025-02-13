@@ -49,7 +49,7 @@ export default function Home() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
+    // console.log(values)
     fetch('/api/cdk', {
       method: 'POST', // 或者 'PUT'
       headers: {
@@ -127,6 +127,7 @@ export default function Home() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="once">一日卡（一次入库/补偿用）</SelectItem>
                       <SelectItem value="weekly">七日体验卡（三次入库）</SelectItem>
                       <SelectItem value="monthly">月卡（无限制）</SelectItem>
                       <SelectItem value="seasonly">季度卡（无限制）</SelectItem>

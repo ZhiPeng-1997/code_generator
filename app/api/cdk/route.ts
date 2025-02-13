@@ -1,5 +1,5 @@
 import { Db } from 'mongodb';
-import {default as exec_mongo} from '@/app/api/mongo' 
+import { default as exec_mongo } from '@/app/api/mongo'
 import { verify_and_get_name } from "@/app/api/config"
 import { insert_log } from '@/app/api/pgsql';
 import { NextRequest } from 'next/server';
@@ -47,7 +47,7 @@ type CreateCdkRequest = {
   cdk_type: string,
   password: string,
 }
- 
+
 export async function POST(request: NextRequest) {
   const json_body: CreateCdkRequest = await request.json();
   const cdk_type = json_body["cdk_type"];
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ data: "fuck you asshole!" })
   }
   const cdk_value: string = generateRandomString();
-  const document: Record<string, string|number|string[]> = {
+  const document: Record<string, string | number | string[]> = {
     "value": cdk_value,
     "machine_code": "",
     "games": [],
@@ -67,7 +67,11 @@ export async function POST(request: NextRequest) {
     "bind_ip_history": [],
   };
 
-  if (cdk_type == "weekly") {
+  if (cdk_type == "once") {
+    document["expire_time"] = getTimestampAfterNDays(1);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 1;
+  } else if (cdk_type == "weekly") {
     document["expire_time"] = getTimestampAfterNDays(7);
     document["cdk_type"] = "temp";
     document["trial_times"] = 3;
@@ -84,6 +88,6 @@ export async function POST(request: NextRequest) {
     const cdk_collection = unlocker_db?.collection("Cdk");
     await cdk_collection?.insertOne(document);
   });
-  await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "CREATE"});
+  await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "CREATE" });
   return Response.json({ data: cdk_value });
 }
