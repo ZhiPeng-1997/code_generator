@@ -46,19 +46,21 @@ function getTimestampAfterNDays(n: number) {
 type CreateCdkRequest = {
   cdk_type: string,
   password: string,
+  numbers: number,
 }
 
 export async function POST(request: NextRequest) {
   const json_body: CreateCdkRequest = await request.json();
   const cdk_type = json_body["cdk_type"];
   const passowrd = json_body["password"];
+  const numbers = json_body["numbers"] || 1;
   const creator = verify_and_get_name(passowrd)
   if (!!!creator) {
     return Response.json({ data: "fuck you asshole!" })
   }
-  const cdk_value: string = generateRandomString();
+
   const document: Record<string, string | number | string[]> = {
-    "value": cdk_value,
+    // "value": cdk_value,
     "machine_code": "",
     "games": [],
     "bind_times": 0,
@@ -68,13 +70,13 @@ export async function POST(request: NextRequest) {
   };
 
   if (cdk_type == "once") {
-    document["expire_time"] = getTimestampAfterNDays(1);
+    document["expire_time"] = getTimestampAfterNDays(14);
     document["cdk_type"] = "temp";
     document["trial_times"] = 1;
   } else if (cdk_type == "weekly") {
     document["expire_time"] = getTimestampAfterNDays(7);
     document["cdk_type"] = "temp";
-    document["trial_times"] = 3;
+    document["trial_times"] = 20;
   } else if (cdk_type == "monthly") {
     document["expire_time"] = getTimestampAfterNDays(31);
     document["cdk_type"] = "normal";
@@ -84,10 +86,18 @@ export async function POST(request: NextRequest) {
   } else if (cdk_type == "vip") {
     document["cdk_type"] = "vip";
   }
+  const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {
     const cdk_collection = unlocker_db?.collection("Cdk");
-    await cdk_collection?.insertOne(document);
+    for (let i=0; i<numbers; i++) {
+      const cdk_value: string = generateRandomString();
+      const new_cdk = {...document, value: cdk_value};
+      await cdk_collection?.insertOne(new_cdk);
+      cdk_list.push(cdk_value);
+    }
   });
-  await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "CREATE" });
-  return Response.json({ data: cdk_value });
+  for (const cdk of cdk_list) {
+    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE" });
+  }
+  return Response.json({ data: cdk_list });
 }

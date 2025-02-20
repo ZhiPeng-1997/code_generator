@@ -31,17 +31,19 @@ const formSchema = z.object({
     message: "请输入密码"
   }),
   cdk_type: z.string(),
+  numbers: z.coerce.number().int().positive(),
 })
 
 export default function Home() {
   const { toast } = useToast()
-  const [cdk_value, set_cdk_value] = useState("")
+  const [cdk_value, set_cdk_value] = useState([])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
       cdk_type: "weekly",
+      numbers: 1,
     },
   })
 
@@ -82,7 +84,7 @@ export default function Home() {
 
   async function copy_cdk() {
     try {
-      await navigator.clipboard.writeText(cdk_value);
+      await navigator.clipboard.writeText(cdk_value.join("\n"));
       toast({
         title: "提示",
         description: "已复制到剪切板",
@@ -127,15 +129,29 @@ export default function Home() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="once">一日卡（一次入库/补偿用）</SelectItem>
-                      <SelectItem value="weekly">七日体验卡（三次入库）</SelectItem>
-                      <SelectItem value="monthly">月卡（无限制）</SelectItem>
-                      <SelectItem value="seasonly">季度卡（无限制）</SelectItem>
+                      <SelectItem value="once">14日卡（一次入库/推广用）</SelectItem>
+                      <SelectItem value="weekly">七日体验卡（20次入库）</SelectItem>
                       <SelectItem value="vip">VIP（永久）</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
                     选择生成CDK的类型
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="numbers"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>生成数量</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="1" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    CDK生成数量
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -150,7 +166,7 @@ export default function Home() {
             <Button className="ml-2" onClick={copy_cdk}>点我复制</Button>
           </AlertTitle>
           <AlertDescription>
-            {cdk_value}
+            {cdk_value.map(o => (<p key={o}>{o}</p>))}
           </AlertDescription>
         </Alert>)}
 
