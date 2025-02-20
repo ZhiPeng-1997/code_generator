@@ -160,7 +160,7 @@ export default function Home() {
             <Button type="submit">生成</Button>
           </form>
         </Form>
-        {!!cdk_value && (<Alert>
+        {!!cdk_value && cdk_value.length > 0 && (<Alert>
           <Terminal className="h-4 w-4" />
           <AlertTitle>生成完成
             <Button className="ml-2" onClick={copy_cdk}>点我复制</Button>
