@@ -56,7 +56,10 @@ export async function POST(request: NextRequest) {
   const numbers = json_body["numbers"] || 1;
   const creator = verify_and_get_name(passowrd)
   if (!!!creator) {
-    return Response.json({ data: "fuck you asshole!" })
+    return Response.json({ data: ["fuck you asshole!"] })
+  }
+  if (numbers > 10) {
+    return Response.json({ data: ["生成的太多了！！"] })
   }
 
   const document: Record<string, string | number | string[]> = {
