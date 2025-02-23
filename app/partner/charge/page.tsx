@@ -123,7 +123,7 @@ export default function PartnerCharge() {
                 </FormItem>
               )}
             />
-            <Button type="submit">重置</Button>
+            <Button type="submit">变更</Button>
           </form>
         </Form>
       </main>

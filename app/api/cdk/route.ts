@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
   // 获取管理人积分
   const partner_score = await get_partner_score(creator);
   if (partner_score < total_score) {
-    return Response.json({ data: ["积分不足！"] });
+    return Response.json({ data: ["积分不足！剩余积分:" + partner_score] });
   }
   const balance_left = partner_score - total_score;
 
