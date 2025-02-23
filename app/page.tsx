@@ -37,6 +37,7 @@ const formSchema = z.object({
 export default function Home() {
   const { toast } = useToast()
   const [cdk_value, set_cdk_value] = useState([])
+  const [balance_left, set_balance_left] = useState(-1)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,8 +69,9 @@ export default function Home() {
       })
       .then(response => {
         // 处理返回的JSON数据
-        const { data } = response;
+        const { data, partner_score=-1 } = response;
         set_cdk_value(data);
+        set_balance_left(partner_score);
         toast({
           title: "提示",
           description: "生成成功",
@@ -168,6 +170,7 @@ export default function Home() {
           </AlertTitle>
           <AlertDescription>
             {cdk_value.map(o => (<p key={o}>{o}</p>))}
+            {balance_left != -1 && (<p>{ balance_left }</p>)}
           </AlertDescription>
         </Alert>)}
 
