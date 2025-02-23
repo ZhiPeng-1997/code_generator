@@ -43,6 +43,8 @@ const columns: ColumnDef<CdkHistory>[] = [
       let type_name = null;
       if (type_tag == "once") {
         type_name = "一次试用";
+      }else if (type_tag == "3day") {
+        type_name = "三日试用";
       } else if (type_tag == "weekly") {
         type_name = "周卡";
       } else if (type_tag == "monthly") {

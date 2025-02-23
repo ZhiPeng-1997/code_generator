@@ -1,8 +1,10 @@
 import { Db } from 'mongodb';
 import { default as exec_mongo } from '@/app/api/mongo'
 import { verify_and_get_name, get_score } from "@/app/api/config"
-import { insert_log, get_partner_score, change_partner_score} from '@/app/api/pgsql';
+import { insert_log, get_partner_score, change_partner_score } from '@/app/api/pgsql';
 import { NextRequest } from 'next/server';
+import { sendMail } from "@/app/api/mailer"
+
 function generateRandomString() {
   // 包含大写字母和数字的字符串
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -70,7 +72,7 @@ export async function POST(request: NextRequest) {
   // 获取管理人积分
   const partner_score = await get_partner_score(creator);
   if (partner_score < total_score) {
-    return Response.json({ data: ["积分不足！"], partner_score});
+    return Response.json({ data: ["积分不足！"], partner_score });
   }
   const balance_left = partner_score - total_score;
 
@@ -90,6 +92,10 @@ export async function POST(request: NextRequest) {
     document["expire_time"] = getTimestampAfterNDays(14);
     document["cdk_type"] = "temp";
     document["trial_times"] = 1;
+  } if (cdk_type == "3day") {
+    document["expire_time"] = getTimestampAfterNDays(3);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 3;
   } else if (cdk_type == "weekly") {
     document["expire_time"] = getTimestampAfterNDays(7);
     document["cdk_type"] = "temp";
@@ -106,16 +112,20 @@ export async function POST(request: NextRequest) {
   const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {
     const cdk_collection = unlocker_db?.collection("Cdk");
-    for (let i=0; i<numbers; i++) {
+    for (let i = 0; i < numbers; i++) {
       const cdk_value: string = generateRandomString();
-      const new_cdk = {...document, value: cdk_value};
+      const new_cdk = { ...document, value: cdk_value };
       await cdk_collection?.insertOne(new_cdk);
       cdk_list.push(cdk_value);
     }
   });
   for (const cdk of cdk_list) {
-    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE", balance: balance_left});
+    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE", balance: balance_left });
   }
   await change_partner_score(creator, -1 * total_score);
-  return Response.json({ data: cdk_list, partner_score: balance_left });
+  if (cdk_type != "once") {
+    const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[CREATE KEY]${creator}`, `${cdk_list[0]}  |  ${cdk_type}  |  ${balance_left}`);
+    console.log(result);
+  }
+  return Response.json({ data: cdk_list, score_charge: total_score, partner_score: balance_left });
 }

@@ -38,6 +38,7 @@ export default function Home() {
   const { toast } = useToast()
   const [cdk_value, set_cdk_value] = useState([])
   const [balance_left, set_balance_left] = useState(-1)
+  const [score_charge, set_score_charge] = useState(-1)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,9 +70,10 @@ export default function Home() {
       })
       .then(response => {
         // 处理返回的JSON数据
-        const { data, partner_score=-1 } = response;
+        const { data, partner_score=-1, score_charge=-1 } = response;
         set_cdk_value(data);
         set_balance_left(partner_score);
+        set_score_charge(score_charge);
         toast({
           title: "提示",
           description: "生成成功",
@@ -132,6 +134,7 @@ export default function Home() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="once">14日卡（一次入库/推广用）</SelectItem>
+                      <SelectItem value="3day">三日体验卡（3次入库）</SelectItem>
                       <SelectItem value="weekly">七日体验卡（20次入库）</SelectItem>
                       <SelectItem value="monthly">月卡（无限制）</SelectItem>
                       <SelectItem value="vip">VIP（永久）</SelectItem>
@@ -170,6 +173,7 @@ export default function Home() {
           </AlertTitle>
           <AlertDescription>
             {cdk_value.map(o => (<p key={o}>{o}</p>))}
+            {score_charge != -1 && (<p>消费积分：{ score_charge }</p>)}
             {balance_left != -1 && (<p>剩余积分：{ balance_left }</p>)}
           </AlertDescription>
         </Alert>)}

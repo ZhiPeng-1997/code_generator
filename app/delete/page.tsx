@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { Switch } from "@/components/ui/switch"
+import { useState } from "react"
 
 
 const formSchema = z.object({
@@ -29,7 +30,9 @@ const formSchema = z.object({
 
 export default function Delete() {
   const { toast } = useToast()
-
+  const [balance_before, set_balance_before] = useState(-1)
+  const [score_back, set_score_back] = useState(-1)
+  const [balance_after, set_balance_after] = useState(-1)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,7 +63,10 @@ export default function Delete() {
       })
       .then(response => {
         // 处理返回的JSON数据
-        const { data } = response;
+        const { data, partner_score_before=-1, partner_score_after = -1, score_back=-1 } = response;
+        set_balance_before(partner_score_before);
+        set_score_back(score_back);
+        set_balance_after(partner_score_after);
         toast({
           title: "提示",
           description: data,
@@ -131,6 +137,9 @@ export default function Delete() {
             <Button type="submit">删除</Button>
           </form>
         </Form>
+        {balance_before > -1 && (<span>原有积分: {balance_before}</span>)}
+        {score_back > -1 && (<span>返还积分: {score_back}</span>)}
+        {balance_after > -1 && (<span>现有积分: {balance_after}</span>)}
       </main>
     </div>
   );
