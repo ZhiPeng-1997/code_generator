@@ -170,7 +170,7 @@ export default function Home() {
           </AlertTitle>
           <AlertDescription>
             {cdk_value.map(o => (<p key={o}>{o}</p>))}
-            {balance_left != -1 && (<p>{ balance_left }</p>)}
+            {balance_left != -1 && (<p>剩余积分：{ balance_left }</p>)}
           </AlertDescription>
         </Alert>)}
 
