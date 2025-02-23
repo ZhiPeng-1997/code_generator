@@ -1,7 +1,7 @@
 import { Db } from 'mongodb';
 import { default as exec_mongo } from '@/app/api/mongo'
-import { verify_and_get_name } from "@/app/api/config"
-import { insert_log } from '@/app/api/pgsql';
+import { verify_and_get_name, get_score } from "@/app/api/config"
+import { insert_log, get_partner_score, change_partner_score} from '@/app/api/pgsql';
 import { NextRequest } from 'next/server';
 function generateRandomString() {
   // 包含大写字母和数字的字符串
@@ -56,11 +56,23 @@ export async function POST(request: NextRequest) {
   const numbers = json_body["numbers"] || 1;
   const creator = verify_and_get_name(passowrd)
   if (!!!creator) {
-    return Response.json({ data: ["fuck you asshole!"] })
+    return Response.json({ data: ["fuck you asshole!"] });
+  }
+  if (numbers > 1 && cdk_type != "once") {
+    return Response.json({ data: ["仅限试用key可以批量生成！"] });
   }
   if (numbers > 10) {
-    return Response.json({ data: ["生成的太多了！！"] })
+    return Response.json({ data: ["生成的太多了！！"] });
   }
+  // 获取要扣的积分
+  const score: number = get_score(cdk_type);
+  const total_score = Math.floor(score * numbers);
+  // 获取管理人积分
+  const partner_score = await get_partner_score(creator);
+  if (partner_score < total_score) {
+    return Response.json({ data: ["积分不足！"] });
+  }
+  const balance_left = partner_score - total_score;
 
   const document: Record<string, string | number | string[]> = {
     // "value": cdk_value,
@@ -70,6 +82,8 @@ export async function POST(request: NextRequest) {
     "create_time": Date.now(),
     "creator": creator,
     "bind_ip_history": [],
+    "type_tag": cdk_type,
+    "score": score,
   };
 
   if (cdk_type == "once") {
@@ -100,7 +114,8 @@ export async function POST(request: NextRequest) {
     }
   });
   for (const cdk of cdk_list) {
-    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE" });
+    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE", balance: balance_left});
   }
+  await change_partner_score(creator, -1 * total_score);
   return Response.json({ data: cdk_list });
 }

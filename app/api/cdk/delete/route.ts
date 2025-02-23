@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 import {default as exec_mongo} from '@/app/api/mongo' 
-import { insert_log } from '@/app/api/pgsql' 
+import { insert_log, get_partner_score, change_partner_score } from '@/app/api/pgsql' 
 import { sendMail } from "@/app/api/mailer"
 import { verify_and_get_name } from "@/app/api/config"
 function getTimestampAfterNDays(n: number) {
@@ -34,7 +34,10 @@ export async function POST(request: Request) {
       "value": cdk_value
     });
     if (!!cdk) {
-
+      const cdk_creator = cdk.creator;
+      const partner_score = await get_partner_score(cdk_creator);
+      const create_score = cdk.score || 0;
+      const partner_balance = partner_score + create_score;
       if (get_black && !!cdk.machine_code) {
         const cdk_black_collection = unlocker_db?.collection("CdkBlackList");
         const machine_black_collection = unlocker_db?.collection("MachineBlackList");
@@ -54,10 +57,11 @@ export async function POST(request: Request) {
       });
       const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, "[DELETE KEY]CDK已删除", cdk.value + "  ||  " + cdk.cdk_type)
       console.log(result);
+      await change_partner_score(cdk_creator, create_score);
+      await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE", balance: partner_balance});
       return {data: "删除成功"};
     }
     return {data: "删除失败,CDK不存在"};
   });
-  await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE"});
   return Response.json(data);
 }
