@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
   }
   await change_partner_score(creator, -1 * total_score);
   if (cdk_type != "once") {
-    const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[CREATE KEY]${creator}`, `${cdk_list[0]}  |  ${cdk_type}  |  ${balance_left}`);
+    const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[CREATE KEY]CDK已创建-${creator}`, `${cdk_list[0]}  |  ${cdk_type}  |  ${balance_left}`);
     console.log(result);
   }
   return Response.json({ data: cdk_list, score_charge: total_score, partner_score: balance_left });
