@@ -13,7 +13,7 @@ export const verify_and_get_name = function(passowrd: string): string | null {
 export const get_score = function(cdk_type: string): number {
     for (const tag in SCORE_MAP) {
         if (tag == cdk_type) {
-            return SCORE_MAP[tag];
+            return parseInt(SCORE_MAP[tag] + "");
         }
     }
     return 1;
