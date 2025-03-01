@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       await cdk_collection?.deleteOne({
         "_id": cdk._id
       });
-      const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[DELETE KEY]CDK已删除-${cdk_creator}`, cdk.value + "  ||  " + cdk.cdk_type + "  ||  " + `操作人：${creator} 实际所有人:${cdk_creator}`  +  "  ||  "  + partner_balance);
+      const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[DELETE KEY]CDK已删除-${cdk_creator}`, cdk.value + "  ||  " + (cdk.type_tag || cdk.cdk_type) + "  ||  " + `操作人：${creator} 实际所有人:${cdk_creator}`  +  "  ||  "  + partner_balance);
       console.log(result);
       await change_partner_score(cdk_creator, create_score);
       await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE", balance: partner_balance});
