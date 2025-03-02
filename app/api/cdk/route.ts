@@ -99,12 +99,12 @@ export async function POST(request: NextRequest) {
   } else if (cdk_type == "weekly") {
     document["expire_time"] = getTimestampAfterNDays(7);
     document["cdk_type"] = "temp";
-    document["trial_times"] = 20;
+    document["trial_times"] = 5;
   } else if (cdk_type == "monthly") {
     document["expire_time"] = getTimestampAfterNDays(31);
     document["cdk_type"] = "normal";
-  } else if (cdk_type == "seasonly") {
-    document["expire_time"] = getTimestampAfterNDays(92);
+  } else if (cdk_type == "10years") {
+    document["expire_time"] = getTimestampAfterNDays(365*10);
     document["cdk_type"] = "normal";
   } else if (cdk_type == "vip") {
     document["cdk_type"] = "vip";
