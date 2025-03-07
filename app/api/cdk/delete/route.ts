@@ -42,14 +42,25 @@ export async function POST(request: Request) {
         const cdk_black_collection = unlocker_db?.collection("CdkBlackList");
         const machine_black_collection = unlocker_db?.collection("MachineBlackList");
 
-        await cdk_black_collection.insertOne({
-          value: cdk.value,
-          expire_time: getTimestampAfterNDays(30),
-        });
+        try {
+          await cdk_black_collection.insertOne({
+            value: cdk.value,
+            expire_time: getTimestampAfterNDays(30),
+            reason: 0,
+          });
+        } catch(e) {
+          console.error(e);
+        }
+        
 
-        await machine_black_collection.insertOne({
-          value: cdk.machine_code,
-        })
+        try {
+          await machine_black_collection.insertOne({
+            value: cdk.machine_code,
+          })
+        } catch(e) {
+          console.error(e);
+        }
+        
       }
 
       await cdk_collection?.deleteOne({
