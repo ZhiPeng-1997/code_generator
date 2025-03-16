@@ -45,7 +45,7 @@ export const get_partner_score = async function (partner_name: string) {
             return -1;
         }
         const first_row = res.rows[0];
-        return first_row["balance"] || -1;
+        return null != first_row["balance"] && undefined != first_row["balance"] ? first_row["balance"]: 0;
     } finally {
         client.release();
     }
