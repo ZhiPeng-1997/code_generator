@@ -133,7 +133,8 @@ export default function Home() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="once">14日卡（一次入库/推广用）</SelectItem>
+                      <SelectItem value="onlyone">1日卡（一次入库/永久入库不过期）</SelectItem>
+                      <SelectItem value="once">3日卡（一次入库/推广用）</SelectItem>
                       <SelectItem value="3day">三日体验卡（3次入库）</SelectItem>
                       <SelectItem value="weekly">七日体验卡（5次入库）</SelectItem>
                       <SelectItem value="monthly">月卡（无限制）</SelectItem>

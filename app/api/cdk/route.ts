@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
   };
 
   if (cdk_type == "once") {
-    document["expire_time"] = getTimestampAfterNDays(14);
+    document["expire_time"] = getTimestampAfterNDays(3);
     document["cdk_type"] = "temp";
     document["trial_times"] = 1;
   } if (cdk_type == "3day") {
@@ -108,6 +108,10 @@ export async function POST(request: NextRequest) {
     document["cdk_type"] = "normal";
   } else if (cdk_type == "vip") {
     document["cdk_type"] = "vip";
+  } else if (cdk_type == "onlyone") {
+    document["expire_time"] = getTimestampAfterNDays(1);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 1;
   }
   const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {
