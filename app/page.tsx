@@ -44,7 +44,7 @@ export default function Home() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
-      cdk_type: "weekly",
+      cdk_type: "3day",
       numbers: 1,
     },
   })
