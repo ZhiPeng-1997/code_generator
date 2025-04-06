@@ -112,6 +112,12 @@ export async function POST(request: NextRequest) {
     document["expire_time"] = getTimestampAfterNDays(1);
     document["cdk_type"] = "temp";
     document["trial_times"] = 1;
+  } else if (cdk_type == "seasonly") {
+    document["expire_time"] = getTimestampAfterNDays(91);
+    document["cdk_type"] = "normal";
+  } else if (cdk_type == "yearly") {
+    document["expire_time"] = getTimestampAfterNDays(365);
+    document["cdk_type"] = "normal";
   }
   const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {

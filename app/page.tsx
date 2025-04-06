@@ -138,7 +138,9 @@ export default function Home() {
                       <SelectItem value="3day">三日体验卡（3次入库）</SelectItem>
                       <SelectItem value="weekly">七日体验卡（5次入库）</SelectItem>
                       <SelectItem value="monthly">月卡（无限制）</SelectItem>
-                      <SelectItem value="10years">十年（普通）</SelectItem>
+                      <SelectItem value="seasonly">季度卡（无限制）</SelectItem>
+                      <SelectItem value="yearly">年卡（无限制）</SelectItem>
+                      <SelectItem value="10years">十年（无限制）</SelectItem>
                       <SelectItem value="vip">VIP（永久）</SelectItem>
                     </SelectContent>
                   </Select>

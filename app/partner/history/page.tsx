@@ -53,6 +53,12 @@ const columns: ColumnDef<CdkHistory>[] = [
         type_name = "VIP";
       } else if (type_tag == "10years") {
         type_name = "永久";
+      } else if (type_tag == "yearly") {
+        type_name = "年卡";
+      } else if (type_tag == "seasonly") {
+        type_name = "季度卡";
+      } else if (type_tag == "onlyone") {
+        type_name = "一次永久";
       } else {
         type_name = "--";
       }
