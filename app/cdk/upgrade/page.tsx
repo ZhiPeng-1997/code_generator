@@ -156,6 +156,7 @@ export default function Home() {
                     <Terminal className="h-4 w-4" />
                     <AlertTitle>升级完成</AlertTitle>
                     <AlertDescription>
+                        {cdk_value.map(o => (<p key={o}>{o}</p>))}
                         {score_charge != -1 && (<p>消费积分：{score_charge}</p>)}
                         {balance_left != -1 && (<p>剩余积分：{balance_left}</p>)}
                     </AlertDescription>
