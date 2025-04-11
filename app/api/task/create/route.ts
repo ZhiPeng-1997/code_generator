@@ -7,6 +7,7 @@ type PartnerChargeRequest = {
   app_id: number,
   command: string,
   password: string,
+  force_hidden_dlc: boolean
 }
 
 export async function POST(request: NextRequest) {
@@ -14,6 +15,7 @@ export async function POST(request: NextRequest) {
   const passowrd = json_body["password"];
   const app_id = json_body["app_id"];
   const command = json_body["command"];
+  const force_hidden_dlc = json_body["force_hidden_dlc"];
   if (passowrd !== process.env.SUPER_PASSWORD) {
     return Response.json({ data: "去你妈的！" });
   }
@@ -23,7 +25,8 @@ export async function POST(request: NextRequest) {
     await task_collection.insertOne({
       "command": command,
       "status": "wait",
-      "params": command == "upgrade" ? {"app_id": app_id + ""}: {},
+      "params": command == "upgrade" ? 
+      { "app_id": app_id + "", "force_hidden_dlc": force_hidden_dlc } : {},
     })
   });
 

@@ -21,13 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
+import { Switch } from "@/components/ui/switch"
 const formSchema = z.object({
   password: z.string().min(1, {
     message: "请输入密码"
   }),
   app_id: z.coerce.number().int(),
   command: z.string(),
+  force_hidden_dlc: z.boolean()
 })
 
 export default function Reset() {
@@ -39,6 +40,7 @@ export default function Reset() {
       password: "",
       command: "upgrade",
       app_id: 0,
+      force_hidden_dlc: false,
     },
   })
 
@@ -121,22 +123,41 @@ export default function Reset() {
                 </FormItem>
               )}
             />
-            {form.getValues().command == "upgrade" && (<FormField
-              control={form.control}
-              name="app_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>APP ID</FormLabel>
-                  <FormControl>
-                    <Input placeholder="2050650" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    CDK
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />)}
+            {form.getValues().command == "upgrade" && (
+              <FormField
+                control={form.control}
+                name="app_id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>APP ID</FormLabel>
+                    <FormControl>
+                      <Input placeholder="2050650" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      CDK
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            {form.getValues().command == "upgrade" && (
+              <FormField
+                control={form.control}
+                name="force_hidden_dlc"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>强制更新隐藏DLC</FormLabel>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <Button type="submit">提交</Button>
           </form>
         </Form>
