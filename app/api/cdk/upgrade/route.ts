@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     await cdk_collection.updateOne({"_id": cdk._id}, update_data);
     const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[CREATE KEY]CDK已升级-${cdk_creator}`, `${value}  |  升级为${cdk_type}  |  ${balance_left}`);
     console.log(result);
-    return { data: `${value}升级完成`, score_charge: score_diff, partner_score: balance_left }
+    return { data: [`${value}升级完成`], score_charge: score_diff, partner_score: balance_left }
   });
 
   return Response.json(result);
