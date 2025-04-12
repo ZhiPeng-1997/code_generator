@@ -40,7 +40,7 @@ export default function Reset() {
       password: "",
       command: "upgrade",
       app_id: 0,
-      force_hidden_dlc: false,
+      force_hidden_dlc: true,
     },
   })
 
