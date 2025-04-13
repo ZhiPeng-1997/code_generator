@@ -62,7 +62,12 @@ export default function Dlc() {
         // 处理返回的JSON数据
         const { data } = response;
         const { exclude_list }: {exclude_list: Array<string>} = data;
-        form.setValue("exclude_dlc_list", exclude_list.map(o => ({value: o})))
+        form.setValue("exclude_dlc_list", exclude_list.map(o => ({value: o})));
+        toast({
+          title: "提示",
+          description: "查询完成",
+          duration: 1000,
+        });
       })
       .catch(error => {
         // 处理错误
