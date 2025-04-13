@@ -35,7 +35,7 @@ const items = [
   },
   {
     title: "CDK升级",
-    url: "/upgrade",
+    url: "/cdk/upgrade",
     icon: CircleFadingArrowUp,
   },
   {
