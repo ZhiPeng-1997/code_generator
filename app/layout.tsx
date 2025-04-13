@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -15,8 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "CDK生成器",
-  description: "cdk generator for unlocker",
+  title: "CDK控制台",
+  description: "cdk manager for unlocker",
 };
 
 export default function RootLayout({
@@ -25,13 +26,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarTrigger />
+          {children}
+        </SidebarProvider>
         <Toaster />
       </body>
     </html>
+
   );
 }
