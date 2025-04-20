@@ -88,15 +88,23 @@ export async function POST(request: NextRequest) {
     "score": score,
   };
 
-  if (cdk_type == "once") {
-    document["expire_time"] = getTimestampAfterNDays(3);
+  if (cdk_type == "1_normal") {
+    document["expire_time"] = getTimestampAfterNDays(30);
     document["cdk_type"] = "temp";
     document["trial_times"] = 1;
-  } if (cdk_type == "3day") {
+  } else if (cdk_type == "2_normal") {
+    document["expire_time"] = getTimestampAfterNDays(30);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 2;
+  } else if (cdk_type == "3_normal") {
     document["expire_time"] = getTimestampAfterNDays(3);
     document["cdk_type"] = "temp";
     document["trial_times"] = 3;
-  } else if (cdk_type == "weekly") {
+  } else if (cdk_type == "3_trial") {
+    document["expire_time"] = getTimestampAfterNDays(3);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 3;
+  } else if (cdk_type == "5_trial") {
     document["expire_time"] = getTimestampAfterNDays(7);
     document["cdk_type"] = "temp";
     document["trial_times"] = 5;

@@ -41,12 +41,16 @@ const columns: ColumnDef<CdkHistory>[] = [
     cell: ({ row }) => {
       const type_tag = row.getValue("type_tag");
       let type_name = null;
-      if (type_tag == "once") {
-        type_name = "一次试用";
-      }else if (type_tag == "3day") {
-        type_name = "三日试用";
-      } else if (type_tag == "weekly") {
-        type_name = "周卡";
+      if (type_tag == "1_normal") {
+        type_name = "1次永久";
+      } else if (type_tag == "2_normal") {
+        type_name = "2次试用";
+      } else if (type_tag == "3_normal") {
+        type_name = "3次试用";
+      } else if (type_tag == "3_trial") {
+        type_name = "3次试用";
+      } else if (type_tag == "5_trial") {
+        type_name = "5次试用";
       } else if (type_tag == "monthly") {
         type_name = "月卡";
       } else if (type_tag == "vip") {
@@ -57,8 +61,6 @@ const columns: ColumnDef<CdkHistory>[] = [
         type_name = "年卡";
       } else if (type_tag == "seasonly") {
         type_name = "季度卡";
-      } else if (type_tag == "onlyone") {
-        type_name = "一次永久";
       } else {
         type_name = "--";
       }

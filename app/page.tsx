@@ -44,7 +44,7 @@ export default function Home() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
-      cdk_type: "3day",
+      cdk_type: "1_normal",
       numbers: 1,
     },
   })
@@ -133,15 +133,16 @@ export default function Home() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="onlyone">1日卡（一次入库/永久入库不过期）</SelectItem>
-                      <SelectItem value="once">3日卡（一次入库/推广用）</SelectItem>
-                      <SelectItem value="3day">三日体验卡（3次入库）</SelectItem>
-                      <SelectItem value="weekly">七日体验卡（5次入库）</SelectItem>
-                      <SelectItem value="monthly">月卡（无限制）</SelectItem>
-                      <SelectItem value="seasonly">季度卡（无限制）</SelectItem>
-                      <SelectItem value="yearly">年卡（无限制）</SelectItem>
-                      <SelectItem value="10years">十年（无限制）</SelectItem>
-                      <SelectItem value="vip">VIP（永久）</SelectItem>
+                      <SelectItem value="1_normal">【✅不清除】1次卡（30天有效期）</SelectItem>
+                      <SelectItem value="2_normal">【✅不清除】2次卡（30天有效期）</SelectItem>
+                      <SelectItem value="3_normal">【✅不清除】3次卡（3天有效期）</SelectItem>
+                      <SelectItem value="3_trial">【❌清除】3次卡（3天有效期）</SelectItem>
+                      <SelectItem value="5_trial">【❌清除】5次卡（7天有效期）</SelectItem>
+                      <SelectItem value="monthly">【✅不清除】无限次（月卡）</SelectItem>
+                      <SelectItem value="seasonly">【✅不清除】无限次（季度卡）</SelectItem>
+                      <SelectItem value="yearly">【✅不清除】无限次（年卡）</SelectItem>
+                      <SelectItem value="10years">【✅不清除】无限次（十年）</SelectItem>
+                      <SelectItem value="vip">【✅不清除】VIP（永久）</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
