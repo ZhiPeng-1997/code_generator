@@ -1,4 +1,4 @@
-import { Plus, Delete, LockKeyholeOpen, Search, CircleFadingArrowUp, History, TimerReset, CircleDollarSign, Bot, Settings } from "lucide-react"
+import { Plus, Delete, LockKeyholeOpen, Search, CircleFadingArrowUp, History, TimerReset, CircleDollarSign, Bot, Settings, WifiOff } from "lucide-react"
 
 import {
   Sidebar,
@@ -52,6 +52,11 @@ const items = [
     title: "(管理)重置绑定次数",
     url: "/reset",
     icon: TimerReset,
+  },
+  {
+    title: "(管理)拉黑",
+    url: "/black",
+    icon: WifiOff,
   },
   {
     title: "(管理)任务发布",
