@@ -103,7 +103,7 @@ export default function Black() {
                 <FormItem>
                   <FormLabel>密码</FormLabel>
                   <FormControl>
-                    <Input placeholder="xxx" {...field} />
+                    <Input type="password" placeholder="xxx" {...field} />
                   </FormControl>
                   <FormDescription>
                     预置密码

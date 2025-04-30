@@ -34,9 +34,15 @@ export async function POST(request: Request) {
       "value": cdk_value
     });
     if (!!cdk) {
+      const cdk_games = cdk.games || [];
+      const is_used = cdk_games.length > 0;
       const cdk_creator = cdk.creator;
       const partner_score = await get_partner_score(cdk_creator);
-      const create_score = cdk.score || 0;
+      let create_score = cdk.score || 0;
+      // 不拉黑但是使用过？不返点
+      if (!get_black && is_used) {
+        create_score = 0;
+      }
       const partner_balance = partner_score + create_score;
       if (get_black && !!cdk.machine_code) {
         const cdk_black_collection = unlocker_db?.collection("CdkBlackList");

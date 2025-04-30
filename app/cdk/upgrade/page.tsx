@@ -137,9 +137,11 @@ export default function Home() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="yearly">年卡（无限制）</SelectItem>
-                                            <SelectItem value="10years">十年（无限制）</SelectItem>
-                                            <SelectItem value="vip">VIP（永久）</SelectItem>
+                                            <SelectItem value="monthly">【✅不清除】无限次（月卡）</SelectItem>
+                                            <SelectItem value="seasonly">【✅不清除】无限次（季度卡）</SelectItem>
+                                            <SelectItem value="yearly">【✅不清除】无限次（年卡）</SelectItem>
+                                            <SelectItem value="10years">【✅不清除】无限次（十年）</SelectItem>
+                                            <SelectItem value="vip">【✅不清除】VIP（永久）</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>

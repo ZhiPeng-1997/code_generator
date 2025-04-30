@@ -81,6 +81,20 @@ export async function POST(request: NextRequest) {
         "type_tag": cdk_type,
         "score": score
       };
+    } else if (cdk_type == "monthly") {
+      update_data["$set"] = {
+        "expire_time": getTimestampAfterNDays(31),
+        "cdk_type": "normal",
+        "type_tag": cdk_type,
+        "score": score
+      };
+    } else if (cdk_type == "seasonly") {
+      update_data["$set"] = {
+        "expire_time": getTimestampAfterNDays(90),
+        "cdk_type": "normal",
+        "type_tag": cdk_type,
+        "score": score
+      };
     }
     const balance_left = partner_score - score_diff;
 

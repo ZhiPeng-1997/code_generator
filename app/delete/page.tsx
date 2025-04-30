@@ -111,9 +111,9 @@ export default function Delete() {
                       checked={field.value}
                       onCheckedChange={field.onChange} />
                   </FormControl>
-                  {/* <FormDescription>
-                    拉黑
-                  </FormDescription> */}
+                  <FormDescription style={{"color": "red"}}>
+                    * 若卡已使用且选择不拉黑，则不返还点数，升级卡使用左侧的升级功能，特殊情况单独处理
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
