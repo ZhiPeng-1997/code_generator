@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     }
     const balance_left = partner_score - score_diff;
 
-    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: value, oper_type: "UPGRADE", balance: balance_left });
+    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: value, oper_type: "UPGRADE", balance: balance_left, cdk_owner: cdk_creator });
     await change_partner_score(creator, -1 * score_diff);
     await cdk_collection.updateOne({"_id": cdk._id}, update_data);
     const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[CREATE KEY]CDK已升级-${cdk_creator}`, `${value}  |  升级为${cdk_type}  |  ${balance_left}`);

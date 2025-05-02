@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
     }
   });
   for (const cdk of cdk_list) {
-    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE", balance: balance_left });
+    await insert_log({ oper_name: creator, oper_time: new Date(), cdk_value: cdk, oper_type: "CREATE", balance: balance_left, cdk_owner: creator });
   }
   await change_partner_score(creator, -1 * total_score);
   if (cdk_type != "once") {

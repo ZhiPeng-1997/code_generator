@@ -16,7 +16,7 @@ if (log_open_switch) {
 
 
 
-export const insert_log = async function ({ oper_name, oper_time, cdk_value, oper_type, balance = -1 }: { oper_name: string, oper_time: Date, cdk_value: string, oper_type: string, balance: number }) {
+export const insert_log = async function ({ oper_name, oper_time, cdk_value, oper_type, balance = -1, cdk_owner }: { oper_name: string, oper_time: Date, cdk_value: string, oper_type: string, balance: number, cdk_owner: string }) {
     if (!log_open_switch) {
         return;
     }
@@ -24,8 +24,8 @@ export const insert_log = async function ({ oper_name, oper_time, cdk_value, ope
     try {
         // const { rows } = await client.query('SELECT * FROM posts');
         const res = await client.query(
-            'INSERT INTO oper_log (oper_name, oper_time, cdk_value, oper_type, balance) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [oper_name, oper_time, cdk_value, oper_type, balance]
+            'INSERT INTO oper_log (oper_name, oper_time, cdk_value, oper_type, balance, cdk_owner) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [oper_name, oper_time, cdk_value, oper_type, balance, cdk_owner]
         );
         return res;
     } finally {

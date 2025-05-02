@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       const result = await sendMail(process.env.MAIL_NOTIFY_EMIAL as string, `[DELETE KEY]CDK已删除-${cdk_creator}`, cdk.value + "  ||  " + (cdk.type_tag || cdk.cdk_type) + "  ||  " + `操作人：${creator} 实际所有人:${cdk_creator}`  +  "  ||  "  + partner_balance + "  ||  " + (get_black? "拉黑": "不拉黑") );
       console.log(result);
       await change_partner_score(cdk_creator, create_score);
-      await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE", balance: partner_balance});
+      await insert_log({oper_name: creator, oper_time: new Date(), cdk_value: cdk_value, oper_type: "DELETE", balance: partner_balance, cdk_owner: cdk_creator});
       return {data: "删除成功", score_back:create_score, partner_score_before: partner_score, partner_score_after: partner_balance};
     }
     return {data: "删除失败,CDK不存在"};
