@@ -95,6 +95,36 @@ export async function POST(request: NextRequest) {
         }
       });
     }
+  } else if (value_type == "GIFT") {
+    if (oper == "ALLOW") {
+      await exec_mongo(async (unlocker_db: Db) => {
+        const gifted_machine_collection = unlocker_db?.collection("GitfedMachineList");
+        const machine = await gifted_machine_collection?.findOne({
+          "value": value
+        });
+        if (!!machine) {
+          await gifted_machine_collection.deleteOne({ _id: machine._id });
+          data = { data: "赠礼记录删除成功" };
+        } else {
+          data = { data: "未查询到赠礼记录" };
+        }
+      });
+    } else if (oper == "DENY") {
+      await exec_mongo(async (unlocker_db: Db) => {
+        const gifted_machine_collection = unlocker_db?.collection("GitfedMachineList");
+        const machine = await gifted_machine_collection?.findOne({
+          "value": value
+        });
+        if (!!machine) {
+          data = { data: "已有该赠礼记录" };
+        } else {
+          await gifted_machine_collection?.insertOne({
+            value: value,
+          })
+          data = { data: "赠礼记录添加成功" };
+        }
+      });
+    }
   }
 
   return Response.json(data);

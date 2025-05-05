@@ -31,6 +31,9 @@ const valueTypeOptions = [{
 }, {
   value: "MACHINE",
   desc: "机器"
+}, {
+  value: "GIFT",
+  desc: "赠礼"
 }];
 
 const formSchema = z.object({
@@ -41,7 +44,7 @@ const formSchema = z.object({
   value: z.string().min(1, {
     message: "请输入正确的值"
   }),
-  value_type: z.enum(["CDK", "MACHINE"]),
+  value_type: z.enum(["CDK", "MACHINE", "GIFT"]),
 })
 
 export default function Black() {
