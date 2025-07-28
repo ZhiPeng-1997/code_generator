@@ -32,7 +32,7 @@ const formSchema = z.object({
   cdk_value: z.string().min(23, {
     message: "请输入正确的cdk"
   }),
-  slow_seconds: z.coerce.number().int().positive().max(44)
+  slow_seconds: z.coerce.number().int().positive().max(65)
 })
 
 export default function SlowMode() {
