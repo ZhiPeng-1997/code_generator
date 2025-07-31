@@ -144,7 +144,6 @@ export default function Home() {
                       <SelectItem value="10years">【✅不清除】无限次（十年）</SelectItem>
                       <SelectItem value="vip">【✅不清除】VIP（永久）</SelectItem>
                       <SelectItem value="onekey">【✅不清除】一键入库（永久）</SelectItem>
-
                     </SelectContent>
                   </Select>
                   <FormDescription>
