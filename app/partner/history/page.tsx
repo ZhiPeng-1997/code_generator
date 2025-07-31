@@ -61,6 +61,8 @@ const columns: ColumnDef<CdkHistory>[] = [
         type_name = "年卡";
       } else if (type_tag == "seasonly") {
         type_name = "季度卡";
+      } else if (type_tag == "onekey") {
+        type_name = "一键入库";
       } else {
         type_name = "--";
       }

@@ -126,6 +126,10 @@ export async function POST(request: NextRequest) {
   } else if (cdk_type == "yearly") {
     document["expire_time"] = getTimestampAfterNDays(365);
     document["cdk_type"] = "normal";
+  } else if (cdk_type == "onekey") {
+    document["expire_time"] = getTimestampAfterNDays(90);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 0;
   }
   const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {
