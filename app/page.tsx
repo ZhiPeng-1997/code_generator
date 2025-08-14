@@ -136,6 +136,7 @@ export default function Home() {
                       <SelectItem value="1_normal">【✅不清除】1次卡（30天有效期）</SelectItem>
                       <SelectItem value="2_normal">【✅不清除】2次卡（30天有效期）</SelectItem>
                       <SelectItem value="3_normal">【✅不清除】🎁3次卡（3天有效期）</SelectItem>
+                      <SelectItem value="repeat_3_normal">【✅代理勿开】👋赠礼3次卡（1天有效期）</SelectItem>
                       <SelectItem value="3_trial">【❌清除】3次卡（3天有效期）</SelectItem>
                       <SelectItem value="5_trial">【❌清除】5次卡（7天有效期）</SelectItem>
                       <SelectItem value="monthly">【✅不清除】无限次（月卡）</SelectItem>

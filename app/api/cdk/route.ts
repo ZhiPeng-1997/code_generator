@@ -130,6 +130,10 @@ export async function POST(request: NextRequest) {
     document["expire_time"] = getTimestampAfterNDays(365);
     document["cdk_type"] = "temp";
     document["trial_times"] = 0;
+  } else if (cdk_type == "repeat_3_normal") {
+    document["expire_time"] = getTimestampAfterNDays(1);
+    document["cdk_type"] = "temp";
+    document["trial_times"] = 3;
   }
   const cdk_list: string[] = [];
   await exec_mongo(async (unlocker_db: Db) => {
