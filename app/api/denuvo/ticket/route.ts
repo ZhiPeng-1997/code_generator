@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
 
     /* ---------- 5. 返回结果 ---------- */
     return NextResponse.json({ data: `本次为APPID[${appId}]生成的D加密授权码为:【${random_ticket_code}】, 有效时间截止至${formatTimestamp(expireTime)}, 请尽快使用！` });
-  } catch (err: any) {
+  } catch (err) {
     console.error(err);
     return NextResponse.json({ data: 'Server error' }, { status: 500 });
   }
