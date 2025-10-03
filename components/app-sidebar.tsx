@@ -1,4 +1,4 @@
-import { Plus, Delete, LockKeyholeOpen, Search, CircleFadingArrowUp, History, TimerReset, CircleDollarSign, Bot, Settings, WifiOff, Turtle } from "lucide-react"
+import { Plus, Delete, LockKeyholeOpen, Search, CircleFadingArrowUp, History, TimerReset, CircleDollarSign, Bot, Settings, WifiOff, Turtle, Lock } from "lucide-react"
 
 import {
   Sidebar,
@@ -37,6 +37,11 @@ const items = [
     title: "CDK升级",
     url: "/cdk/upgrade",
     icon: CircleFadingArrowUp,
+  },
+  {
+    title: "Denuvo授权码生成",
+    url: "/denuvo",
+    icon: Lock,
   },
   {
     title: "(代理)开卡历史",
