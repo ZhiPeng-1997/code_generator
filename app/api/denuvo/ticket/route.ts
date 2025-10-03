@@ -83,7 +83,8 @@ export async function POST(request: NextRequest) {
           "ticket_code": random_ticket_code,
           "ticket_hex": ticket,
           "ticket_steam_id": steam_id,
-          "use_times": 5
+          "use_times": 5,
+          "app_id": appId,
         });
     });
 
